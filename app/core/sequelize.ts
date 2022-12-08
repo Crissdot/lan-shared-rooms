@@ -7,8 +7,8 @@ const sequelize = new Sequelize({
   logging: console.log,
 });
 
-const getSequelize = async () => {
+const setupSequelize = () => {
   return setupModels(sequelize);
 }
 
-export { getSequelize };
+export { setupSequelize, sequelize };

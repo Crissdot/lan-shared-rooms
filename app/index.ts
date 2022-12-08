@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
-import { getSequelize } from './core/sequelize';
+import { setupSequelize } from './core/sequelize';
 import { routerApi } from './controllers';
 
 dotenv.config();
@@ -18,7 +18,7 @@ routerApi(app);
 
 app.listen(port, async () => {
   try {
-    const sequelize = await getSequelize();
+    const sequelize = await setupSequelize();
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
