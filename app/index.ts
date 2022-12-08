@@ -1,7 +1,7 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
 import dotenv from 'dotenv';
-import { TypedRequest } from './types/TypedRequest';
 import { getSequelize } from './core/sequelize';
+import { routerApi } from './controllers';
 
 dotenv.config();
 
@@ -10,17 +10,11 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
+app.get('/', (req, res) => {
+  return res.send('All fine!');
 });
 
-interface User {
-  name: string;
-}
-
-app.post('/', (req: TypedRequest<User>, res: Response) => {
-  res.send(`Hello ${req.body.name}`)
-});
+routerApi(app);
 
 app.listen(port, async () => {
   try {
