@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { TypedRequest } from './types/TypedRequest';
+import { sequelize } from './core/sequelize';
 
 dotenv.config();
 
@@ -21,6 +22,13 @@ app.post('/', (req: TypedRequest<User>, res: Response) => {
   res.send(`Hello ${req.body.name}`)
 });
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+app.listen(port, async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+    return;
+  }
 });
