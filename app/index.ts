@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import { TypedRequest } from './src/types/TypedRequest';
+import { TypedRequest } from './types/TypedRequest';
 
 dotenv.config();
 
