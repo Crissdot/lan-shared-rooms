@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize';
+import { setupModels } from '../models';
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
@@ -6,4 +7,8 @@ const sequelize = new Sequelize({
   logging: console.log,
 });
 
-export { sequelize };
+const getSequelize = async () => {
+  return setupModels(sequelize);
+}
+
+export { getSequelize };
