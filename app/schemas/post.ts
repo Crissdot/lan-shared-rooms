@@ -2,8 +2,10 @@ import { z } from "zod";
 
 const message = z.string().trim();
 
-const PostSchema = z.object({
+const CreatePostSchema = z.object({
   message,
 });
 
-export { PostSchema };
+type CreatePostType = z.infer<typeof CreatePostSchema>;
+
+export { CreatePostSchema, CreatePostType };

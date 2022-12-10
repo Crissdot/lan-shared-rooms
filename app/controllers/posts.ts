@@ -1,14 +1,18 @@
 import express from 'express';
 import { sequelize } from '../core/sequelize';
-import { PostSchema } from '../schemas/post';
+import { getPostModel } from '../models/Post';
+import { PostModelInput } from '../types/models/IPostModel';
+import { TypedRequest } from '../types/TypedRequest';
+import { CreatePostSchema, CreatePostType } from '../schemas/post';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
 
 const router = express.Router();
+const PostModel = getPostModel(sequelize);
 
 router.get('/',
   async (req, res) => {
-    const posts = await sequelize.models.Post.findAll();
+    const posts = await PostModel.findAll();
 
     const resData = successResponseData({
       message: 'Get all posts',
@@ -19,9 +23,9 @@ router.get('/',
 );
 
 router.post('/',
-  validate(PostSchema, 'body'),
-  async (req, res) => {
-    const newPost = await sequelize.models.Post.create(req.body);
+  validate(CreatePostSchema, 'body'),
+  async (req: TypedRequest<CreatePostType>, res) => {
+    const newPost = await PostModel.create(req.body as PostModelInput);
 
     const resData = successResponseData({
       code: 201,

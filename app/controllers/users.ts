@@ -1,5 +1,4 @@
 import express from 'express';
-import { z } from 'zod';
 import { sequelize } from '../core/sequelize';
 import { getUserModel } from '../models/User';
 import { UserModelInput } from '../types/models/IUserModel';
