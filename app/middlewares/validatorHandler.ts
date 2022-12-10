@@ -1,14 +1,14 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { z, AnyZodObject, ZodError } from 'zod';
+import { ZodError, ZodTypeAny } from 'zod';
 import { errorResponseData } from './responseHandler';
 
 type properties = 'body' | 'query' | 'params';
 
-const validate = (schema: AnyZodObject, property: properties) =>
+const validate = (schema: ZodTypeAny, property: properties) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req[property];
-      schema.parse(data);
+      await schema.parseAsync(data);
       return next();
     } catch (error) {
       console.log(error)
@@ -16,7 +16,7 @@ const validate = (schema: AnyZodObject, property: properties) =>
       const resData = errorResponseData({
         code: 400,
         error: (error as ZodError).issues,
-        // message: (error as ZodError).name,
+        message: 'Bad request',
       });
       return res.status(resData.code).json(resData);
     }
