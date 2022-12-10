@@ -18,4 +18,6 @@ const CreateUserSchema = z.object({
   message: "Current username already exists",
 });
 
-export { CreateUserSchema };
+type CreateUserType = z.infer<typeof CreateUserSchema>;
+
+export { CreateUserSchema, CreateUserType };
