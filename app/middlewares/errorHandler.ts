@@ -1,9 +1,22 @@
 import express, { Request, Response, NextFunction } from 'express';
+import createError from 'http-errors';
 import { ValidationError } from 'sequelize';
 import { errorResponseData } from '../middlewares/responseHandler';
 
 function logErrors(err: Error, req: Request, res: Response, next: NextFunction) {
   console.error(err);
+  return next(err);
+}
+
+function httpErrorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  if(createError.isHttpError(err)) {
+    const resData = errorResponseData({
+      code: err.statusCode,
+      error: err.name,
+      message: err.message,
+    });
+    return res.status(resData.code).json(resData);
+  }
   return next(err);
 }
 
@@ -27,4 +40,4 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
   return res.status(resData.code).json(resData);
 }
 
-export { logErrors, ormErrorHandler, errorHandler };
+export { logErrors, httpErrorHandler, ormErrorHandler, errorHandler };

@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import { setupSequelize } from './core/sequelize';
 import { routerApi } from './controllers';
-import { logErrors, ormErrorHandler, errorHandler } from './middlewares/errorHandler';
+import { logErrors, httpErrorHandler, ormErrorHandler, errorHandler } from './middlewares/errorHandler';
 
 dotenv.config();
 
@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);
+app.use(httpErrorHandler);
 app.use(ormErrorHandler);
 app.use(errorHandler);
 

@@ -1,5 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
+import createError from 'http-errors';
 import { sequelize } from '../core/sequelize';
 import { getUserModel } from '../models/User';
 import { TypedRequest } from '../types/TypedRequest';
@@ -14,15 +15,15 @@ router.post('/login',
   validate(LoginSchema, 'body'),
   async (req: TypedRequest<LoginType>, res, next) => {
     const data: LoginType = req.body;
+    const wrongCredentialsError = createError.Unauthorized('Username or password incorrect');
 
     const user = await UserModel.findOne({where: { username: data.username }});
-    if (!user) return next(new Error('User not found'));
+    if (!user) return next(wrongCredentialsError);
 
     const isSamePassword = await bcrypt.compare(data.password, user.getDataValue('password'));
-    if (!isSamePassword) return next(new Error('Unauthorized'));
+    if (!isSamePassword) return next(wrongCredentialsError);
 
     const resData = successResponseData({
-      code: 201,
       message: 'Login successfully',
       data: user,
     });
