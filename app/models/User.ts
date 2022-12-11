@@ -16,6 +16,10 @@ const defineUser = (sequelize: Sequelize) => {
       },
     },
     rawPassword: DataTypes.VIRTUAL,
+    token: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
   });
 
   User.beforeCreate((user, options) => {

@@ -7,6 +7,7 @@ interface UserModelInput {
 
 interface UserModelAttributes extends UserModelInput, BaseModelAttributes {
   password: string;
+  token: string;
 }
 
 export { UserModelInput, UserModelAttributes };

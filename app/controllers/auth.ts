@@ -7,6 +7,7 @@ import { TypedRequest } from '../types/TypedRequest';
 import { LoginSchema, LoginType } from '../schemas/auth';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
+import { generateToken } from '../utils/tokenGenerator';
 
 const router = express.Router();
 const UserModel = getUserModel(sequelize);
@@ -23,9 +24,14 @@ router.post('/login',
     const isSamePassword = await bcrypt.compare(data.password, user.getDataValue('password'));
     if (!isSamePassword) return next(wrongCredentialsError);
 
+    const token = generateToken();
+    await user.update({ token });
+
     const resData = successResponseData({
       message: 'Login successfully',
-      data: user,
+      data: {
+        user,
+      },
     });
     return res.status(resData.code).json(resData);
   }
