@@ -4,6 +4,8 @@ interface PostModelInput {
   message: string;
 }
 
-interface PostModelAttributes extends PostModelInput, BaseModelAttributes {}
+interface PostModelAttributes extends PostModelInput, BaseModelAttributes {
+  userId: number;
+}
 
 export { PostModelInput, PostModelAttributes };

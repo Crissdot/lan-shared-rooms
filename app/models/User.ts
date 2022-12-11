@@ -1,9 +1,10 @@
 import { Sequelize, DataTypes, ModelStatic, Model } from 'sequelize';
 import bcrypt from 'bcrypt';
 import { UserModelAttributes, UserModelInput } from '../types/models/IUserModel';
+import { MODELS } from '../constants/DBNames';
 
 const defineUser = (sequelize: Sequelize) => {
-  const User: ModelStatic<Model<UserModelAttributes, UserModelInput>> = sequelize.define('User', {
+  const User: ModelStatic<Model<UserModelAttributes, UserModelInput>> = sequelize.define(MODELS.User.modelName, {
     username: {
       type: DataTypes.STRING,
       unique: true,
@@ -21,6 +22,8 @@ const defineUser = (sequelize: Sequelize) => {
       allowNull: true,
       defaultValue: null,
     },
+  }, {
+    tableName: MODELS.User.tableName.plural,
   });
 
   User.beforeCreate((user, options) => {
