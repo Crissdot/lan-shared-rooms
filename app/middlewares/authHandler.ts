@@ -6,7 +6,7 @@ import { getUserModel } from '../models/User';
 const UserModel = getUserModel(sequelize);
 
 const tokenBasedAuth = async (req: Request, res: Response, next: NextFunction) => {
-  const badTokenError = createError.Forbidden('You need to login');
+  const badTokenError = createError.Forbidden('You need to login first');
 
   const token = req.header('Token-Auth');
   if (!token) {

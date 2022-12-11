@@ -7,6 +7,7 @@ import { TypedRequest } from '../types/TypedRequest';
 import { LoginSchema, LoginType } from '../schemas/auth';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
+import { tokenBasedAuth } from '../middlewares/authHandler';
 import { generateToken } from '../utils/tokenGenerator';
 
 const router = express.Router();
@@ -32,6 +33,24 @@ router.post('/login',
       data: {
         user,
       },
+    });
+    return res.status(resData.code).json(resData);
+  }
+);
+
+router.post('/logout',
+  tokenBasedAuth,
+  async (req, res, next) => {
+    const token = req.header('Token-Auth');
+    const user = await UserModel.findOne({where: { token }});
+    if (!user) {
+      return next(createError.NotFound('User not found'));
+    }
+
+    await user.update({ token: null });
+
+    const resData = successResponseData({
+      message: 'Logout successfully',
     });
     return res.status(resData.code).json(resData);
   }
