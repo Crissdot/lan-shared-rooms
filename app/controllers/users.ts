@@ -6,11 +6,13 @@ import { TypedRequest } from '../types/TypedRequest';
 import { CreateUserSchema, CreateUserType } from '../schemas/users';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
+import { tokenBasedAuth } from '../middlewares/authHandler';
 
 const router = express.Router();
 const UserModel = getUserModel(sequelize);
 
 router.get('/',
+  tokenBasedAuth,
   async (req, res) => {
     const users = await UserModel.findAll();
 
