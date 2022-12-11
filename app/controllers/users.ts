@@ -9,12 +9,11 @@ import { successResponseData } from '../middlewares/responseHandler';
 import { tokenBasedAuth } from '../middlewares/authHandler';
 
 const router = express.Router();
-const UserModel = getUserModel(sequelize);
 
 router.get('/',
   tokenBasedAuth,
   async (req, res) => {
-    const users = await UserModel.findAll();
+    const users = await getUserModel(sequelize).findAll();
 
     const resData = successResponseData({
       message: 'Get all users',
@@ -31,7 +30,7 @@ router.post('/',
       username: req.body.username,
       rawPassword: req.body.password
     };
-    const newUser = await UserModel.create(data);
+    const newUser = await getUserModel(sequelize).create(data);
 
     const resData = successResponseData({
       code: 201,

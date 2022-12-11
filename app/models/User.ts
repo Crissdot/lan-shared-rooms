@@ -42,9 +42,6 @@ const defineUser = (sequelize: Sequelize) => {
 };
 
 const getUserModel = (sequelize: Sequelize) => {
-  if (!sequelize.models.User) {
-    return defineUser(sequelize);
-  }
   return (sequelize.models.User as ModelStatic<Model<UserModelAttributes, UserModelInput>>);
 }
 

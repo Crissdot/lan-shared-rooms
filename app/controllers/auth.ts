@@ -11,7 +11,6 @@ import { tokenBasedAuth } from '../middlewares/authHandler';
 import { generateToken } from '../utils/tokenGenerator';
 
 const router = express.Router();
-const UserModel = getUserModel(sequelize);
 
 router.post('/login',
   validate(LoginSchema, 'body'),
@@ -19,7 +18,7 @@ router.post('/login',
     const data: LoginType = req.body;
     const wrongCredentialsError = createError.Unauthorized('Username or password incorrect');
 
-    const user = await UserModel.findOne({where: { username: data.username }});
+    const user = await getUserModel(sequelize).findOne({where: { username: data.username }});
     if (!user) return next(wrongCredentialsError);
 
     const isSamePassword = await bcrypt.compare(data.password, user.getDataValue('password'));
@@ -42,7 +41,7 @@ router.post('/logout',
   tokenBasedAuth,
   async (req, res, next) => {
     const token = req.header('Token-Auth');
-    const user = await UserModel.findOne({where: { token }});
+    const user = await getUserModel(sequelize).findOne({where: { token }});
     if (!user) {
       return next(createError.NotFound('User not found'));
     }

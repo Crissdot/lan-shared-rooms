@@ -12,7 +12,7 @@ const setupModels = async (sequelize: Sequelize) => {
   PostModel.belongsTo(UserModel, {as: MODELS.User.tableName.singular});
 
   // Don't use force in production
-  return sequelize.sync({ force: true });
+  return sequelize.sync({ force: false });
 }
 
 export { setupModels };

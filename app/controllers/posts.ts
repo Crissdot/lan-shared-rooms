@@ -9,11 +9,10 @@ import { successResponseData } from '../middlewares/responseHandler';
 import { getUserFromToken } from '../utils/tokenValidator';
 
 const router = express.Router();
-const PostModel = getPostModel(sequelize);
 
 router.get('/',
   async (req, res) => {
-    const posts = await PostModel.findAll();
+    const posts = await getPostModel(sequelize).findAll({include: 'user'});
 
     const resData = successResponseData({
       message: 'Get all posts',
@@ -35,7 +34,7 @@ router.post('/',
       data.userId = user.getDataValue('id');
     }
 
-    const newPost = await PostModel.create(data);
+    const newPost = await getPostModel(sequelize).create(data);
 
     const resData = successResponseData({
       code: 201,

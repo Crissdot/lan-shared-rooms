@@ -27,9 +27,6 @@ const definePost = (sequelize: Sequelize) => {
 };
 
 const getPostModel = (sequelize: Sequelize) => {
-  if (!sequelize.models.Post) {
-    return definePost(sequelize);
-  }
   return (sequelize.models.Post as ModelStatic<Model<PostModelAttributes, PostModelInput>>);
 }
 
