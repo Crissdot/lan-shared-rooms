@@ -10,4 +10,17 @@ const tokenBasedAuth = async (req: Request, res: Response, next: NextFunction) =
   return next();
 }
 
-export { tokenBasedAuth };
+const optionalLogin = async (req: Request, res: Response, next: NextFunction) => {
+  const token = req.header('Token-Auth');
+  if (!token) {
+    next();
+  }
+
+  const isValidToken = await getUserFromToken(token);
+  if (!isValidToken) {
+    return next(createError.Forbidden('You need to send a valid token'));
+  }
+  return next();
+}
+
+export { tokenBasedAuth, optionalLogin };

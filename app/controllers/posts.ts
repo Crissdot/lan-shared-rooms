@@ -4,6 +4,7 @@ import { getPostModel } from '../models/Post';
 import { PostModelInput } from '../types/models/IPostModel';
 import { TypedRequest } from '../types/TypedRequest';
 import { CreatePostSchema, CreatePostType } from '../schemas/post';
+import { optionalLogin } from '../middlewares/authHandler';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
 import { getUserFromToken } from '../utils/tokenValidator';
@@ -23,6 +24,7 @@ router.get('/',
 );
 
 router.post('/',
+  optionalLogin,
   validate(CreatePostSchema, 'body'),
   async (req: TypedRequest<CreatePostType>, res) => {
     const data: PostModelInput = {
