@@ -45,7 +45,12 @@ io.on('connection', (socket) => {
   usersCount++;
   io.emit('count_updated', {count: usersCount});
 
-  io.on('disconnect', () => {
+  socket.on('new_post', (post) => {
+    console.log('New post', post);
+    io.emit('new_post', post);
+  });
+
+  socket.on('disconnect', () => {
     console.log('User disconnected');
     usersCount--;
     io.emit('count_updated', {count: usersCount});
