@@ -1,16 +1,18 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-interface User {
+interface LoginCredentials {
   username: string;
+  password: string;
 }
 
-export const login = createAsyncThunk('user/login', async (data: User) => {
-  // TODO something async
-  return data;
+export const login = createAsyncThunk('user/login', async (data: LoginCredentials) => {
+  const response = await axios.post('http://localhost:9999/api/v1/auth/login', data);
+  return response.data.user;
 });
 
 interface UserState {
-  user: User | null;
+  user: object | null;
   status: string;
 }
 

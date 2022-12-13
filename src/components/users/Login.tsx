@@ -10,7 +10,7 @@ const Login = () =>  {
 
   // TODO add logic
   const loginHandler = () => {
-    dispatch(login({username: 'Criss'}));
+    dispatch(login({username: 'Criss', password: '123456'}));
   }
 
   return (
