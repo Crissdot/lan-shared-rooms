@@ -1,5 +1,6 @@
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
+import cors, { CorsOptions } from 'cors';
 import { Server } from 'socket.io';
 import { setupSequelize } from './core/sequelize';
 import { routerApi } from './controllers';
@@ -11,6 +12,18 @@ const app: Express = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+
+const whitelist = ['http://localhost:9998'];
+const options: CorsOptions = {
+  origin: (requestOrigin, callback) => {
+    if(!requestOrigin || whitelist.includes(requestOrigin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('You shall not pass'));
+    }
+  },
+}
+app.use(cors(options));
 
 app.get('/', (req, res) => {
   return res.send('All fine!');
