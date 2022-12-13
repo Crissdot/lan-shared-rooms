@@ -1,18 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../../store/user';
+import { useAppDispatch } from '../../hooks/typedRedux';
+import { login } from '../../store/user';
 
 const Login = () =>  {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // TODO add logic
-  const user = useSelector((state: any) => state.user.user);
+  // const user = useSelector((state: any) => state.user.user);
 
   // TODO add logic
   const loginHandler = () => {
-    dispatch(actions.login({
-      username: 'Criss',
-    }));
+    dispatch(login({username: 'Criss'}));
   }
 
   return (
