@@ -8,7 +8,7 @@ interface LoginCredentials {
 
 export const login = createAsyncThunk('user/login', async (data: LoginCredentials) => {
   const response = await axios.post('http://localhost:9999/api/v1/auth/login', data);
-  return response.data.user;
+  return response.data.data.user;
 });
 
 interface UserState {
