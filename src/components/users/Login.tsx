@@ -16,9 +16,6 @@ const Login = () =>  {
     dispatch(login(data));
   }
 
-  // TODO add logic
-  // const user = useSelector((state: any) => state.user.user);
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input {...register('username')} type='text' placeholder='username' />

@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import { Home } from './components/Home';
 import { Login } from './components/users/Login';
+import { Logout } from './components/users/Logout';
 
 function App() {
   return (
     <BrowserRouter>
       <Provider store={store}>
+        <Logout />
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/login' element={<Login/>} />
