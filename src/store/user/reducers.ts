@@ -3,9 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { config } from '../../config';
 import { RootState } from '../';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
-import { IFethcedUser } from '../../types/IFetchedUser';
+import { IFetchedUser } from '../../types/IFetchedUser';
 
-export const login = createAsyncThunk<IFethcedUser, ILoginCredentials>('user/login', async (data: ILoginCredentials) => {
+export const login = createAsyncThunk<IFetchedUser, ILoginCredentials>('user/login', async (data: ILoginCredentials) => {
   const response = await axios.post(`${config.backendURL}/auth/login`, data);
   return response.data.data.user;
 });

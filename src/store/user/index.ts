@@ -10,10 +10,10 @@ const userInitialState: IUserState = {
 const extraReducersBuilder = (builder: ActionReducerMapBuilder<IUserState>, actionCreator: AsyncThunk<any, any, any>) => {
   builder.addCase(actionCreator.pending, (state) => {
     state.status = 'loading';
-  }).addCase(login.fulfilled, (state, action) => {
+  }).addCase(actionCreator.fulfilled, (state, action) => {
     state.user = action.payload;
     state.status = 'success';
-  }).addCase(login.rejected, (state) => {
+  }).addCase(actionCreator.rejected, (state) => {
     state.status = 'failed';
   });
 }

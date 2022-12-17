@@ -1,4 +1,4 @@
-export interface IFethcedUser {
+export interface IFetchedUser {
   id: number;
   username: string;
   password: string;
