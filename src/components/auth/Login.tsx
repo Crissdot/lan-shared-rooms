@@ -1,7 +1,7 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useAppDispatch } from '../../hooks/typedRedux';
-import { login } from '../../store/user';
+import { login } from '../../store/user/reducers';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
 
 const Login = () =>  {
