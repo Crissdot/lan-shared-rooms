@@ -17,7 +17,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Main/>}>
               <Route element={<Home/>} />
-              <Route path='login' element={<Login/>} />
+              <Route path='login/' element={<Login/>} />
             </Route>
           </Routes>
         </PersistGate>

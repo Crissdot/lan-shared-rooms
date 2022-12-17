@@ -1,5 +1,6 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAppDispatch } from '../../hooks/typedRedux';
 import { login } from '../../store/user/reducers';
@@ -21,10 +22,16 @@ const Form = styled.form`
 
 const Login = () =>  {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm<ILoginCredentials>();
-  const onSubmit: SubmitHandler<ILoginCredentials> = (data) => {
-    dispatch(login(data));
+  const onSubmit: SubmitHandler<ILoginCredentials> = async (data) => {
+    try {
+      dispatch(login(data))
+      navigate('/');
+    } catch (e) {
+      // TODO show error message
+    }
   }
 
   return (
