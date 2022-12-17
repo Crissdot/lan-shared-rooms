@@ -20,7 +20,7 @@ const Form = styled.form`
   gap: 1rem;
 `;
 
-const Login = () =>  {
+const LoginForm = () =>  {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -46,4 +46,4 @@ const Login = () =>  {
   );
 };
 
-export { Login };
+export { LoginForm };

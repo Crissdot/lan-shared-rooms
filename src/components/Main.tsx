@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Outlet } from 'react-router-dom';
+import { AuthButton } from './auth/AuthButton';
 
 const MainCustom = styled.main`
   display: flex;
@@ -15,9 +16,14 @@ const MainCustom = styled.main`
 
 const Main = () => {
   return (
-    <MainCustom>
-      <Outlet/>
-    </MainCustom>
+    <>
+      <header>
+        <AuthButton/>
+      </header>
+      <MainCustom>
+        <Outlet/>
+      </MainCustom>
+    </>
   );
 }
 
