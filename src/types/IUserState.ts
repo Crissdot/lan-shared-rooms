@@ -1,4 +1,6 @@
+import { IFethcedUser } from "./IFetchedUser";
+
 export interface IUserState {
-  user: object | null;
+  user: IFethcedUser | null;
   status: string;
 }
