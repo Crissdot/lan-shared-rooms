@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/typedRedux';
-import { actions } from '../../store/user';
+import { logout } from '../../store/user/reducers';
 
 const AuthButton = () =>  {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -17,8 +17,11 @@ const AuthButton = () =>  {
 
   const authHandler = () => {
     if (isUserLoggedIn) {
-      // TODO logout in backend
-      dispatch(actions.logout());
+      try {
+        dispatch(logout());
+      } catch (e) {
+        // TODO
+      }
     } else {
       navigate('/login/');
     }
