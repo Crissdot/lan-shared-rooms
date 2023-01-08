@@ -9,7 +9,7 @@ const MainCustom = styled.main`
   justify-content: center;
   align-items: center;
   width: 80%;
-  height: 100vh;
+  height: calc(100vh - 75px);
   margin: 0 auto;
 `;
 
