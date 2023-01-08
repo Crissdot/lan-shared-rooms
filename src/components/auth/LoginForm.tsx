@@ -5,14 +5,7 @@ import styled from 'styled-components';
 import { useAppDispatch } from '../../hooks/typedRedux';
 import { login } from '../../store/user/reducers';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
-
-const Div = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-`;
+import { Main } from '../StyledComponents/Main';
 
 const Title = styled.h1`
   margin-top: 0;
@@ -43,14 +36,16 @@ const LoginForm = () =>  {
   }
 
   return (
-    <Div>
-      <Title>Login</Title>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register('username')} type='text' placeholder='username' />
-        <input {...register('password')} type='password' placeholder='password' />
-        <input type='submit' />
-      </Form>
-    </Div>
+    <Main>
+      <>
+        <Title>Login</Title>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register('username')} type='text' placeholder='username' />
+          <input {...register('password')} type='password' placeholder='password' />
+          <input type='submit' />
+        </Form>
+      </>
+    </Main>
   );
 };
 
