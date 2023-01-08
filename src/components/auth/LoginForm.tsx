@@ -6,6 +6,14 @@ import { useAppDispatch } from '../../hooks/typedRedux';
 import { login } from '../../store/user/reducers';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
 
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+`;
+
 const Title = styled.h1`
   margin-top: 0;
   font-size: 3rem;
@@ -35,14 +43,14 @@ const LoginForm = () =>  {
   }
 
   return (
-    <>
+    <Div>
       <Title>Login</Title>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <input {...register('username')} type='text' placeholder='username' />
         <input {...register('password')} type='password' placeholder='password' />
         <input type='submit' />
       </Form>
-    </>
+    </Div>
   );
 };
 

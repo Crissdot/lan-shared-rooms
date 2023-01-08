@@ -14,7 +14,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor} >
           <Routes>
             <Route path='/' element={<Main/>}>
-              <Route element={<Home/>} />
+              <Route path='' element={<Home/>} />
               <Route path='login/' element={<LoginForm/>} />
             </Route>
           </Routes>
