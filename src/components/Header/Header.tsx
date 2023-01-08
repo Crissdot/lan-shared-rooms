@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AuthButton } from './auth/AuthButton';
+import { AuthButton } from './AuthButton';
 
 const HeaderCustom = styled.main`
   display: flex;
