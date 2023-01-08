@@ -7,6 +7,13 @@ import { login } from '../../store/user/reducers';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
 import { Main } from '../StyledComponents/Main';
 
+const MainLogin = styled(Main)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Title = styled.h1`
   margin-top: 0;
   font-size: 3rem;
@@ -36,7 +43,7 @@ const LoginForm = () =>  {
   }
 
   return (
-    <Main>
+    <MainLogin>
       <>
         <Title>Login</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -45,7 +52,7 @@ const LoginForm = () =>  {
           <input type='submit' />
         </Form>
       </>
-    </Main>
+    </MainLogin>
   );
 };
 

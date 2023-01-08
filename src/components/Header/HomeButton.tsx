@@ -11,7 +11,9 @@ const HomeButton = () =>  {
   }
 
   return (
-    <Button onClick={goHomeHandler} text="Home" />
+    <Button onClick={goHomeHandler} >
+      Home
+    </Button>
   );
 };
 

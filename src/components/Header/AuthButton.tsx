@@ -29,7 +29,9 @@ const AuthButton = () =>  {
   }
 
   return (
-    <Button onClick={authHandler} text={isUserLoggedIn ? 'Logout' : 'Login'} />
+    <Button onClick={authHandler} >
+      {isUserLoggedIn ? 'Logout' : 'Login'}
+    </Button>
   );
 };
 
