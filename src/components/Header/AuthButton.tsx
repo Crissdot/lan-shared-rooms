@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/typedRedux';
 import { logout } from '../../store/user/reducers';
+import { Button } from '../StyledComponents/Button';
 
 const AuthButton = () =>  {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -28,7 +29,7 @@ const AuthButton = () =>  {
   }
 
   return (
-    <button onClick={authHandler}>{isUserLoggedIn ? 'Logout' : 'Login'}</button>
+    <Button onClick={authHandler} text={isUserLoggedIn ? 'Logout' : 'Login'} />
   );
 };
 

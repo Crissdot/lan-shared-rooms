@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../StyledComponents/Button';
 
 const HomeButton = () =>  {
 
@@ -10,7 +11,7 @@ const HomeButton = () =>  {
   }
 
   return (
-    <button onClick={goHomeHandler}>Home</button>
+    <Button onClick={goHomeHandler} text="Home" />
   );
 };
 
