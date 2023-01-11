@@ -22,10 +22,20 @@ const Title = styled.h1`
 `;
 
 const Form = styled.form`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  padding-top: 0.5rem;
   gap: 1rem;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 2rem;
+  padding: 0 1rem;
+  border-radius: 1rem;
+  border: 1px solid black;
 `;
 
 const LoginForm = () =>  {
@@ -47,9 +57,9 @@ const LoginForm = () =>  {
       <>
         <Title>Login</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <input {...register('username')} type='text' placeholder='username' />
-          <input {...register('password')} type='password' placeholder='password' />
-          <input type='submit' />
+          <Input {...register('username')} type='text' placeholder='username' />
+          <Input {...register('password')} type='password' placeholder='password' />
+          <Input type='submit' />
         </Form>
       </>
     </MainLogin>
