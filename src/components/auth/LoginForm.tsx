@@ -45,7 +45,7 @@ const LoginForm = () =>  {
   const { register, handleSubmit } = useForm<ILoginCredentials>();
   const onSubmit: SubmitHandler<ILoginCredentials> = async (data) => {
     try {
-      dispatch(login(data))
+      const user = await dispatch(login(data)).unwrap();
       navigate('/');
     } catch (e) {
       // TODO show error message
