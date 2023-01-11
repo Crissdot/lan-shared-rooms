@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ChatInput } from './ChatInput';
 import { Main } from './StyledComponents/Main';
 
 const Title = styled.h1`
@@ -13,6 +14,7 @@ const Home = () => {
     <Main>
       <>
         <Title>LAN SHARED ROOMS</Title>
+        <ChatInput/>
       </>
     </Main>
   );
