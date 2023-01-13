@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { postService } from '../services/postService';
 
 const Form = styled.form`
   position: relative;
@@ -46,10 +47,10 @@ const ChatInput = () => {
   const onSubmit: SubmitHandler<IChatInputMessage> = async (data) => {
     if (isSendingMessage || data.message.length === 0) return;
     setIsSendingMessage(true);
-    setTimeout(() => {
-      reset();
-      setIsSendingMessage(false);
-    }, 5000);
+    const newPost = await postService.create(data.message);
+    console.log('newPost', newPost);
+    reset();
+    setIsSendingMessage(false);
   }
 
   return (
