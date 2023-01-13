@@ -13,7 +13,7 @@ const tokenBasedAuth = async (req: Request, res: Response, next: NextFunction) =
 const optionalLogin = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Token-Auth');
   if (!token) {
-    next();
+    return next();
   }
 
   const isValidToken = await getUserFromToken(token);
