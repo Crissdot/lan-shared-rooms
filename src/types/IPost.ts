@@ -1,0 +1,12 @@
+export interface IFetchedPost {
+  id: number;
+  message: string;
+  // TODO type this
+  userId: unknown;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ICreateNewPost {
+  message: string;
+};

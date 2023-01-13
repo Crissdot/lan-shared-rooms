@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { postService } from '../services/postService';
+import { ICreateNewPost } from '../types/IPost';
 
 const Form = styled.form`
   position: relative;
@@ -36,15 +37,11 @@ const SVG = styled.svg`
   height: 24px;
 `;
 
-interface IChatInputMessage {
-  message: string;
-}
-
 const ChatInput = () => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
 
-  const { register, handleSubmit, reset } = useForm<IChatInputMessage>();
-  const onSubmit: SubmitHandler<IChatInputMessage> = async (data) => {
+  const { register, handleSubmit, reset } = useForm<ICreateNewPost>();
+  const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
     if (isSendingMessage || data.message.length === 0) return;
     setIsSendingMessage(true);
     const newPost = await postService.create(data.message);
