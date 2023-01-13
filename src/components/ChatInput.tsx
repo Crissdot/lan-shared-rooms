@@ -44,10 +44,13 @@ const ChatInput = () => {
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
     if (isSendingMessage || data.message.length === 0) return;
     setIsSendingMessage(true);
-    const newPost = await postService.create(data.message);
-    console.log('newPost', newPost);
-    reset();
-    setIsSendingMessage(false);
+    try {
+      const newPost = await postService.create(data.message);
+      reset();
+      setIsSendingMessage(false);
+    } catch (e) {
+      // TODO
+    }
   }
 
   return (
