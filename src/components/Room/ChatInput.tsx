@@ -8,7 +8,7 @@ import { ITheme } from '../../types/ITheme';
 const Form = styled.form`
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: ${props => props.theme.sizes.maxWidth};
 `;
 
 const Input = styled.input`

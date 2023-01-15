@@ -5,5 +5,8 @@ export interface ITheme extends DefaultTheme {
     primary: string;
     secondary: string;
     alternative: string;
-  }
+  };
+  sizes: {
+    maxWidth: string;
+  };
 }

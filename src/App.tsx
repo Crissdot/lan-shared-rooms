@@ -15,6 +15,9 @@ function App() {
       primary: '#001427',
       secondary: '#5C80BC',
       alternative: '#D3D4D9',
+    },
+    sizes: {
+      maxWidth: '600px',
     }
   }
 

@@ -5,7 +5,8 @@ import { IFetchedPost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
 
 const ChatRoomContainer = styled.div`
-  margin-top: 20px;
+  max-width: ${props => props.theme.sizes.maxWidth};
+  margin: 30px auto 0;
   border: 2px solid ${props => props.theme.colors.alternative};
   border-radius: 1rem;
 `;
