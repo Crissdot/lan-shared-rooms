@@ -18,10 +18,7 @@ const Input = styled.input`
   border: 1px solid black;
 `;
 
-interface ButtonProps {
-  readonly isLoading: boolean;
-}
-const Button = styled.button<ButtonProps>`
+const Button = styled.button`
   position: absolute;
   top: calc(50% - 12px);
   right: 4px;
@@ -29,7 +26,7 @@ const Button = styled.button<ButtonProps>`
   height: 24px;
   background-color: transparent;
   border: none;
-  opacity: ${props => props.isLoading ? 0.5 : 1};
+  opacity: ${props => props.disabled ? 0.5 : 1};
 `;
 
 const SVG = styled.svg`
@@ -37,7 +34,11 @@ const SVG = styled.svg`
   height: 24px;
 `;
 
-const ChatInput = () => {
+interface Props {
+  reloadPosts: () => Promise<void>;
+}
+
+const ChatInput = ({reloadPosts}: Props) => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
 
   const { register, handleSubmit, reset } = useForm<ICreateNewPost>();
@@ -46,6 +47,7 @@ const ChatInput = () => {
     setIsSendingMessage(true);
     try {
       const newPost = await postService.create(data.message);
+      await reloadPosts();
       reset();
       setIsSendingMessage(false);
     } catch (e) {
@@ -56,7 +58,7 @@ const ChatInput = () => {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register('message')} type='text' />
-      <Button onClick={handleSubmit(onSubmit)} isLoading={isSendingMessage} >
+      <Button onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
         <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="blue">
           <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
         </SVG>

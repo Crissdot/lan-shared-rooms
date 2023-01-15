@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { postService } from '../../services/postService';
 import { IFetchedPost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
@@ -7,11 +7,12 @@ const ChatRoom = () => {
   const [fetchedPosts, setFetchedPosts] = useState<IFetchedPost[]>([]);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const posts = await postService.get();
-      setFetchedPosts(posts);
-    }
     fetchPosts();
+  }, []);
+
+  const fetchPosts = useCallback(async () => {
+    const posts = await postService.get();
+    setFetchedPosts(posts);
   }, []);
 
   return (
@@ -25,7 +26,7 @@ const ChatRoom = () => {
           );
         })}
       </ul>
-      <ChatInput />
+      <ChatInput reloadPosts={fetchPosts} />
     </div>
   );
 }
