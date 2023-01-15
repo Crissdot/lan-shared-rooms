@@ -1,7 +1,27 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { postService } from '../../services/postService';
 import { IFetchedPost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
+
+const ChatRoomContainer = styled.div`
+  border: 1px solid red;
+`;
+
+const ChatMessageListContainer = styled.ul`
+  height: 50vh;
+  overflow-y: scroll;
+  list-style: none;
+`;
+
+const ChatMessageListItem = styled.li`
+  display: block;
+  width: max-content;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: green;
+  border-radius: 1rem;
+`;
 
 const ChatRoom = () => {
   const [fetchedPosts, setFetchedPosts] = useState<IFetchedPost[]>([]);
@@ -16,18 +36,18 @@ const ChatRoom = () => {
   }, []);
 
   return (
-    <div>
-      <ul>
+    <ChatRoomContainer>
+      <ChatMessageListContainer>
         {fetchedPosts.map((post, idx) => {
           return (
-            <li key={idx}>
+            <ChatMessageListItem key={idx}>
               {post.message}
-            </li>
+            </ChatMessageListItem>
           );
         })}
-      </ul>
+      </ChatMessageListContainer>
       <ChatInput reloadPosts={fetchPosts} />
-    </div>
+    </ChatRoomContainer>
   );
 }
 
