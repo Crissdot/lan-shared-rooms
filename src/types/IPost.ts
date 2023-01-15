@@ -3,6 +3,7 @@ export interface IFetchedPost {
   message: string;
   // TODO type this
   userId: unknown;
+  user: unknown;
   createdAt: Date;
   updatedAt: Date;
 }

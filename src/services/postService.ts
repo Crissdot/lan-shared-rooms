@@ -13,6 +13,16 @@ class PostService {
     this.enpointURL = config.backendURL + '/posts';
   }
 
+  async get() {
+    const response = await axios.get<IGenericResponse<IFetchedPost[]>>(this.enpointURL);
+
+    if (!response.data.success) {
+      console.error(response.data.message);
+      throw new Error('An error has occured when triyng to get the posts');
+    }
+    return response.data.data;
+  }
+
   async create(message: string) {
     const headers: IGenericHeaders = {};
     const userToken = getCurrentUserToken();
@@ -30,7 +40,7 @@ class PostService {
       console.error(response.data.message);
       throw new Error('An error has occured when triyng to create a post');
     }
-    return response.data;
+    return response.data.data;
   }
 }
 

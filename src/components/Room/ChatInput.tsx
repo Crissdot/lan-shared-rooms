@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { postService } from '../services/postService';
-import { ICreateNewPost } from '../types/IPost';
+import { postService } from '../../services/postService';
+import { ICreateNewPost } from '../../types/IPost';
 
 const Form = styled.form`
   position: relative;
