@@ -11,7 +11,8 @@ const HeaderCustom = styled.header`
   justify-content: space-between;
   padding: 1rem;
   font-family: Arial, Helvetica, sans-serif;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+  background-color: ${props => props.theme.colors.primary};
+  border-bottom: 1px solid ${props => props.theme.colors.alternative};
 `;
 
 const Header = () => {

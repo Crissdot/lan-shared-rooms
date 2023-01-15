@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Main = styled.main`
-  width: 80%;
+  padding: 0 10%;
   height: calc(100vh - 75px);
-  margin: 0 auto;
+  background-color: ${props => props.theme.colors.primary};
 `;
 
 export { Main };

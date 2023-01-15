@@ -6,18 +6,30 @@ import { store, persistor } from './store';
 import { Wrapper } from './components/Wrapper';
 import { Home } from './components/Home';
 import { LoginForm } from './components/auth/LoginForm';
+import { ThemeProvider } from 'styled-components';
+import { ITheme } from './types/ITheme';
 
 function App() {
+  const theme: ITheme = {
+    colors: {
+      primary: '#001427',
+      secondary: '#5C80BC',
+      alternative: '#D3D4D9',
+    }
+  }
+
   return (
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor} >
-          <Routes>
-            <Route path='/' element={<Wrapper/>}>
-              <Route path='' element={<Home/>} />
-              <Route path='login/' element={<LoginForm/>} />
-            </Route>
-          </Routes>
+          <ThemeProvider theme={theme} >
+            <Routes>
+              <Route path='/' element={<Wrapper/>}>
+                <Route path='' element={<Home/>} />
+                <Route path='login/' element={<LoginForm/>} />
+              </Route>
+            </Routes>
+          </ThemeProvider>
         </PersistGate>
       </Provider>
     </BrowserRouter>

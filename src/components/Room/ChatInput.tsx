@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { postService } from '../../services/postService';
 import { ICreateNewPost } from '../../types/IPost';
+import { ITheme } from '../../types/ITheme';
 
 const Form = styled.form`
   position: relative;
@@ -16,6 +17,7 @@ const Input = styled.input`
   padding: 0 1rem;
   border-radius: 1rem;
   border: 1px solid black;
+  color: black;
 `;
 
 const Button = styled.button`
@@ -40,6 +42,7 @@ interface Props {
 
 const ChatInput = ({reloadPosts}: Props) => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const theme = useTheme() as ITheme;
 
   const { register, handleSubmit, reset } = useForm<ICreateNewPost>();
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
@@ -59,7 +62,7 @@ const ChatInput = ({reloadPosts}: Props) => {
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register('message')} type='text' />
       <Button onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
-        <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="blue">
+        <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
           <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
         </SVG>
       </Button>

@@ -8,6 +8,8 @@ const Button = styled.button`
   box-shadow: none;
   font-size: 1.25rem;
   text-transform: capitalize;
+  background-color: ${props => props.theme.colors.secondary};
+  border: none;
 `;
 
 export { Button };

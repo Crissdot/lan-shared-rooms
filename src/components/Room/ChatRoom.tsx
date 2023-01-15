@@ -5,13 +5,16 @@ import { IFetchedPost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
 
 const ChatRoomContainer = styled.div`
-  border: 1px solid red;
+  margin-top: 20px;
+  border: 2px solid ${props => props.theme.colors.alternative};
+  border-radius: 1rem;
 `;
 
 const ChatMessageListContainer = styled.ul`
   height: 50vh;
   overflow-y: scroll;
   list-style: none;
+
 `;
 
 const ChatMessageListItem = styled.li`
@@ -19,7 +22,8 @@ const ChatMessageListItem = styled.li`
   width: max-content;
   margin: 0.5rem;
   padding: 0.5rem;
-  background-color: green;
+  background-color: ${props => props.theme.colors.alternative};
+  color: black;
   border-radius: 1rem;
 `;
 
