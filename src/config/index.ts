@@ -1,3 +1,3 @@
 export const config = {
-  backendURL: 'http://localhost:9999/api/v1',
+  backendURL: `${process.env.REACT_APP_BACKEND_DOMAIN}/api/v1`,
 };
