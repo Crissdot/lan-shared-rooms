@@ -3,7 +3,7 @@ import { sequelize } from '../core/sequelize';
 import { getPostModel } from '../models/Post';
 import { PostModelInput } from '../types/models/IPostModel';
 import { TypedRequest } from '../types/TypedRequest';
-import { CreatePostSchema, CreatePostType } from '../schemas/post';
+import { GetPostSchema, GetPostType, CreatePostSchema, CreatePostType } from '../schemas/post';
 import { optionalLogin } from '../middlewares/authHandler';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
@@ -12,8 +12,18 @@ import { getUserFromToken } from '../utils/tokenValidator';
 const router = express.Router();
 
 router.get('/',
+  validate(GetPostSchema, 'params'),
   async (req, res) => {
-    const posts = await getPostModel(sequelize).findAll({include: 'user'});
+    const params = req.params as unknown as GetPostType;
+    const limit = params.size ?? 10;
+    const offset = params.page ? (params.page-1) * limit : 0;
+
+    const posts = await getPostModel(sequelize).findAll({
+      include: 'user',
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']]
+    });
 
     const resData = successResponseData({
       message: 'Get all posts',
