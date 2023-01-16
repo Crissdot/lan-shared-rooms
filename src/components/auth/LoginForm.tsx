@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useAppDispatch } from '../../hooks/typedRedux';
 import { login } from '../../store/user/reducers';
 import { ILoginCredentials } from '../../types/ILoginCredentials';
+import { Input } from '../StyledComponents/Input';
 import { Main } from '../StyledComponents/Main';
 
 const MainLogin = styled(Main)`
@@ -28,14 +29,6 @@ const Form = styled.form`
   max-width: 600px;
   padding-top: 0.5rem;
   gap: 1rem;
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 2rem;
-  padding: 0 1rem;
-  border-radius: 1rem;
-  border: 1px solid black;
 `;
 
 const LoginForm = () =>  {

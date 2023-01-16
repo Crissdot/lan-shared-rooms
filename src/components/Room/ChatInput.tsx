@@ -4,20 +4,12 @@ import styled, { useTheme } from 'styled-components';
 import { postService } from '../../services/postService';
 import { ICreateNewPost } from '../../types/IPost';
 import { ITheme } from '../../types/ITheme';
+import { Input } from '../StyledComponents/Input';
 
 const Form = styled.form`
   position: relative;
   width: 100%;
   max-width: ${props => props.theme.sizes.maxWidth};
-`;
-
-const Input = styled.input`
-  width: 100%;
-  height: 2rem;
-  padding: 0 1rem;
-  border-radius: 1rem;
-  border: 1px solid black;
-  color: black;
 `;
 
 const Button = styled.button`
