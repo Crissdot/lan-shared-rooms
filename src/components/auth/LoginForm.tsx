@@ -47,14 +47,12 @@ const LoginForm = () =>  {
 
   return (
     <MainLogin>
-      <>
-        <Title>Login</Title>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input {...register('username')} type='text' placeholder='username' />
-          <Input {...register('password')} type='password' placeholder='password' />
-          <Input type='submit' />
-        </Form>
-      </>
+      <Title>Login</Title>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input {...register('username')} type='text' placeholder='username' />
+        <Input {...register('password')} type='password' placeholder='password' />
+        <Input type='submit' />
+      </Form>
     </MainLogin>
   );
 };
