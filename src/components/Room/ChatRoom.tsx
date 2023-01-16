@@ -42,6 +42,7 @@ const ChatRoom = () => {
 
   return (
     <ChatRoomContainer>
+      <ChatInput reloadPosts={fetchPosts} />
       <ChatMessageListContainer>
         {fetchedPosts.map((post, idx) => {
           return (
@@ -51,7 +52,6 @@ const ChatRoom = () => {
           );
         })}
       </ChatMessageListContainer>
-      <ChatInput reloadPosts={fetchPosts} />
     </ChatRoomContainer>
   );
 }
