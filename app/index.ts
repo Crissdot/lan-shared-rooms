@@ -49,7 +49,12 @@ const server = app.listen(port, async () => {
   }
 });
 
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:9998',
+    methods: ['GET'],
+  },
+});
 
 let usersCount = 0;
 
