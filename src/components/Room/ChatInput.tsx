@@ -28,11 +28,7 @@ const SVG = styled.svg`
   height: 24px;
 `;
 
-interface Props {
-  reloadPosts: () => Promise<void>;
-}
-
-const ChatInput = ({reloadPosts}: Props) => {
+const ChatInput = () => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const theme = useTheme() as ITheme;
 
@@ -42,7 +38,6 @@ const ChatInput = ({reloadPosts}: Props) => {
     setIsSendingMessage(true);
     try {
       const newPost = await postService.create(data.message);
-      await reloadPosts();
       reset();
       setIsSendingMessage(false);
     } catch (e) {
