@@ -29,6 +29,8 @@ app.get('/', (req, res) => {
   return res.send('All fine!');
 });
 
+app.use('/public', express.static('uploads'));
+
 routerApi(app);
 
 app.use(logErrors);

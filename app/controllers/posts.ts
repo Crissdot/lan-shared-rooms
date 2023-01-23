@@ -8,6 +8,7 @@ import { optionalLogin } from '../middlewares/authHandler';
 import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
 import { getUserFromToken } from '../utils/tokenValidator';
+import { upload } from '../middlewares/uploadFileHandler';
 
 const router = express.Router();
 
@@ -35,6 +36,7 @@ router.get('/',
 
 router.post('/',
   optionalLogin,
+  upload.single('file'),
   validate(CreatePostSchema, 'body'),
   async (req: TypedRequest<CreatePostType>, res) => {
     const data: PostModelInput = {
