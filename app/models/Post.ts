@@ -2,6 +2,7 @@ import { Sequelize, DataTypes, ModelStatic, Model } from 'sequelize';
 import { PostModelAttributes, PostModelInput } from '../types/models/IPostModel';
 import { MODELS, FOREIGN_KEYS } from '../constants/DBNames';
 import { createSocketClient } from '../core/socketClient';
+import { SOCKET_NAMES } from '../constants/sockets';
 
 const definePost = (sequelize: Sequelize) => {
   const Post: ModelStatic<Model<PostModelAttributes, PostModelInput>> = sequelize.define(MODELS.Post.modelName, {
@@ -26,7 +27,7 @@ const definePost = (sequelize: Sequelize) => {
 
   const socket = createSocketClient();
   Post.afterCreate((post, options) => {
-    socket.emit('new_post', post);
+    socket.emit(SOCKET_NAMES.newPost, post);
   });
 
   return Post;

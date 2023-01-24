@@ -1,19 +1,17 @@
 import express, { Express } from 'express';
-import dotenv from 'dotenv';
 import cors, { CorsOptions } from 'cors';
 import { Server } from 'socket.io';
 import { setupSequelize } from './core/sequelize';
 import { routerApi } from './controllers';
 import { logErrors, httpErrorHandler, ormErrorHandler, errorHandler } from './middlewares/errorHandler';
-
-dotenv.config();
+import { FRONTEND_DOMAIN, PORT } from './constants/env';
+import { SOCKET_NAMES } from './constants/sockets';
 
 const app: Express = express();
-const port = process.env.PORT;
 
 app.use(express.json());
 
-const whitelist = ['http://localhost:9998'];
+const whitelist = [FRONTEND_DOMAIN];
 const options: CorsOptions = {
   origin: (requestOrigin, callback) => {
     if(!requestOrigin || whitelist.includes(requestOrigin)) {
@@ -38,13 +36,13 @@ app.use(httpErrorHandler);
 app.use(ormErrorHandler);
 app.use(errorHandler);
 
-const server = app.listen(port, async () => {
+const server = app.listen(PORT, async () => {
   try {
     const sequelize = await setupSequelize();
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     return;
@@ -53,7 +51,7 @@ const server = app.listen(port, async () => {
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:9998',
+    origin: FRONTEND_DOMAIN,
     methods: ['GET'],
   },
 });
@@ -63,16 +61,16 @@ let usersCount = 0;
 io.on('connection', (socket) => {
   console.log('A user connected');
   usersCount++;
-  io.emit('count_updated', {count: usersCount});
+  io.emit(SOCKET_NAMES.countUpdated, {count: usersCount});
 
-  socket.on('new_post', (post) => {
-    console.log('New post', post);
-    io.emit('new_post', post);
+  socket.on(SOCKET_NAMES.newPost, (post) => {
+    console.log(SOCKET_NAMES.newPost, post);
+    io.emit(SOCKET_NAMES.newPost, post);
   });
 
   socket.on('disconnect', () => {
     console.log('User disconnected');
     usersCount--;
-    io.emit('count_updated', {count: usersCount});
+    io.emit(SOCKET_NAMES.countUpdated, {count: usersCount});
   });
 });
