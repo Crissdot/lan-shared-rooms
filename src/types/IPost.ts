@@ -10,4 +10,5 @@ export interface IFetchedPost {
 
 export interface ICreateNewPost {
   message: string;
+  files: unknown;
 };

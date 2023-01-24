@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { config } from '../config';
-import { ICreateNewPost } from '../types/IPost';
 import { IGenericResponse } from '../types/IGenericResponse';
 import { IFetchedPost } from '../types/IPost';
 import { IGenericHeaders } from '../types/IGenericHeaders';
 import { getCurrentUserToken } from './currentUserService';
+import { createFormDataFromObject } from '../utils/formData';
 
 class PostService {
   enpointURL: string;
@@ -23,16 +23,15 @@ class PostService {
     return response.data.data;
   }
 
-  async create(message: string) {
+  async create(message: string, file: File) {
     const headers: IGenericHeaders = {};
     const userToken = getCurrentUserToken();
     if (userToken) {
       headers['Token-Auth'] = userToken;
     }
 
-    const response = await axios.post<IGenericResponse<IFetchedPost>>(this.enpointURL, {
-      message,
-    } as ICreateNewPost, {
+    const newPost = createFormDataFromObject({message, file});
+    const response = await axios.post<IGenericResponse<IFetchedPost>>(this.enpointURL, newPost, {
       headers,
     });
 
