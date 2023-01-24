@@ -11,7 +11,7 @@ const app: Express = express();
 
 app.use(express.json());
 
-const whitelist = [FRONTEND_DOMAIN];
+const whitelist = [FRONTEND_DOMAIN, 'http://localhost:9998'];
 const options: CorsOptions = {
   origin: (requestOrigin, callback) => {
     if(!requestOrigin || whitelist.includes(requestOrigin)) {
@@ -51,7 +51,7 @@ const server = app.listen(PORT, async () => {
 
 const io = new Server(server, {
   cors: {
-    origin: FRONTEND_DOMAIN,
+    origin: [FRONTEND_DOMAIN ?? '', 'http://localhost:9998'],
     methods: ['GET'],
   },
 });
