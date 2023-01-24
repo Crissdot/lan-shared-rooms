@@ -40,7 +40,7 @@ router.post('/',
   validate(CreatePostSchema, 'body'),
   async (req: TypedRequest<CreatePostType>, res) => {
     const data: PostModelInput = {
-      message: req.body.message,
+      message: req.body.message ?? req.file?.path ?? '',
     };
 
     const user = await getUserFromToken(req.header('Token-Auth'));

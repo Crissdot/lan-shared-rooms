@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const page = z.number().optional();
 const size = z.number().optional();
-const message = z.string().trim();
+const message = z.string().trim().optional();
 
 const GetPostSchema = z.object({
   page,
