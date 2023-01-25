@@ -49,14 +49,14 @@ const ChatInput = () => {
   const [isAFileSelected, setIsAFileSelected] = useState(false);
   const theme = useTheme() as ITheme;
 
-  const { register, handleSubmit, reset, setValue, resetField } = useForm<ICreateNewPost>();
+  const { register, handleSubmit, reset, resetField } = useForm<ICreateNewPost>();
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
     const files = data.files as FileList;
     if (isSendingMessage || (data.message.length === 0 && files.length === 0)) return;
     setIsSendingMessage(true);
     try {
       const file = files[0];
-      await postService.create(file ? null : data.message, file);
+      await postService.create(data.message, file);
       reset();
     } catch (e) {
       // TODO
@@ -67,20 +67,17 @@ const ChatInput = () => {
   }
 
   const onSelectFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileName = event.target.value.split('fakepath')[1].substring(1);
     setIsAFileSelected(true);
-    setValue('message', fileName);
   };
 
   const onRemoveFileHandler = () => {
     resetField('files');
-    resetField('message');
     setIsAFileSelected(false);
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register('message')} type='text' disabled={isAFileSelected} />
+      <Input {...register('message')} type='text' />
       <ButtonContainer>
         {isAFileSelected && <RemoveFileButton onClick={onRemoveFileHandler} type='button'>X</RemoveFileButton>}
         <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} />
