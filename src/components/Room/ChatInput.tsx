@@ -33,6 +33,12 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const RemoveFileButton = styled(Button)`
+  color: red;
+  font-size: 1.3rem;
+  font-weight: bold;
+`;
+
 const SVG = styled.svg`
   width: 24px;
   height: 24px;
@@ -43,7 +49,7 @@ const ChatInput = () => {
   const [isAFileSelected, setIsAFileSelected] = useState(false);
   const theme = useTheme() as ITheme;
 
-  const { register, handleSubmit, reset, setValue } = useForm<ICreateNewPost>();
+  const { register, handleSubmit, reset, setValue, resetField } = useForm<ICreateNewPost>();
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
     const files = data.files as FileList;
     if (isSendingMessage || (data.message.length === 0 && files.length === 0)) return;
@@ -66,10 +72,17 @@ const ChatInput = () => {
     setValue('message', fileName);
   };
 
+  const onRemoveFileHandler = () => {
+    resetField('files');
+    resetField('message');
+    setIsAFileSelected(false);
+  }
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register('message')} type='text' disabled={isAFileSelected} />
       <ButtonContainer>
+        {isAFileSelected && <RemoveFileButton onClick={onRemoveFileHandler} type='button'>X</RemoveFileButton>}
         <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} />
         <Button onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
           <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
