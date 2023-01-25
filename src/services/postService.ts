@@ -23,7 +23,7 @@ class PostService {
     return response.data.data;
   }
 
-  async create(message: string, file: File) {
+  async create(message: string | null, file: File) {
     const headers: IGenericHeaders = {};
     const userToken = getCurrentUserToken();
     if (userToken) {

@@ -40,28 +40,37 @@ const SVG = styled.svg`
 
 const ChatInput = () => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
+  const [isAFileSelected, setIsAFileSelected] = useState(false);
   const theme = useTheme() as ITheme;
 
-  const { register, handleSubmit, reset } = useForm<ICreateNewPost>();
+  const { register, handleSubmit, reset, setValue } = useForm<ICreateNewPost>();
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
     const files = data.files as FileList;
     if (isSendingMessage || (data.message.length === 0 && files.length === 0)) return;
     setIsSendingMessage(true);
     try {
-      await postService.create(data.message, files[0]);
+      const file = files[0];
+      await postService.create(file ? null : data.message, file);
       reset();
     } catch (e) {
       // TODO
     } finally {
       setIsSendingMessage(false);
+      setIsAFileSelected(false);
     }
   }
 
+  const onSelectFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileName = event.target.value.split('fakepath')[1].substring(1);
+    setIsAFileSelected(true);
+    setValue('message', fileName);
+  };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register('message')} type='text' />
+      <Input {...register('message')} type='text' disabled={isAFileSelected} />
       <ButtonContainer>
-        <InputFile {...register('files')} type='file' disabled={isSendingMessage} />
+        <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} />
         <Button onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
           <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
             <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />

@@ -7,7 +7,8 @@ const Input = styled.input`
   padding: 0 1rem;
   border-radius: 1rem;
   border: 1px solid black;
-  color: black;
+  color: ${props => props.disabled ? 'grey' : 'black'};
+  background-color: white;
 `;
 
 export { Input };
