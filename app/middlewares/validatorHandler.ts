@@ -11,8 +11,6 @@ const validate = (schema: ZodTypeAny, property: properties) =>
       await schema.parseAsync(data);
       return next();
     } catch (error) {
-      console.log(error)
-      console.log(typeof error)
       const resData = errorResponseData({
         code: 400,
         error: (error as ZodError).issues,

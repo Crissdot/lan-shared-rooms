@@ -8,7 +8,13 @@ const definePost = (sequelize: Sequelize) => {
   const Post: ModelStatic<Model<PostModelAttributes, PostModelInput>> = sequelize.define(MODELS.Post.modelName, {
     message: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null,
+    },
+    filePath: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
     },
     [FOREIGN_KEYS.postBelongsToUser]: {
       type: DataTypes.INTEGER,

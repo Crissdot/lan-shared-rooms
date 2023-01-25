@@ -1,7 +1,8 @@
 import { BaseModelAttributes } from './IBaseModel';
 
 interface PostModelInput {
-  message: string;
+  message: string | null;
+  filePath: string | null;
   userId?: number;
 }
 

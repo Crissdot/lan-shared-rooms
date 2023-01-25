@@ -1,4 +1,5 @@
 import express from 'express';
+import createError from 'http-errors';
 import { sequelize } from '../core/sequelize';
 import { getPostModel } from '../models/Post';
 import { PostModelInput } from '../types/models/IPostModel';
@@ -38,9 +39,18 @@ router.post('/',
   optionalLogin,
   upload.single('file'),
   validate(CreatePostSchema, 'body'),
-  async (req: TypedRequest<CreatePostType>, res) => {
+  async (req: TypedRequest<CreatePostType>, res, next) => {
+    const message = req.body.message ?? null;
+    const fileName = req.file?.filename ?? null;
+    if (!message && !req.file) {
+      return next(createError.BadRequest('You need to send a message or a file'));
+    }
+
+    const filePath = !!fileName ? `http://localhost:9999/public/${fileName}` : null;
+
     const data: PostModelInput = {
-      message: req.body.message ?? req.file?.path ?? '',
+      message,
+      filePath,
     };
 
     const user = await getUserFromToken(req.header('Token-Auth'));
