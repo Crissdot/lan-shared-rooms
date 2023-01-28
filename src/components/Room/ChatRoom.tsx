@@ -71,7 +71,7 @@ const ChatRoom = () => {
         {fetchedPosts.map((post, idx) => {
           return (
             <ChatMessageListItem key={idx}>
-              {!!post.message ? post.message : post.filePath}
+              {!!post.message ? post.message : post.filePath?.endsWith('jpg') ? <img src={post.filePath} /> : post.filePath}
               {!!post.filePath &&
                 <DownloadFileButton href={post.filePath} target='_blank' download>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">

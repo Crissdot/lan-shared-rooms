@@ -1,7 +1,7 @@
 export interface IFetchedPost {
   id: number;
-  message: string;
-  filePath: string;
+  message: string | null;
+  filePath: string | null;
   // TODO type this
   userId: unknown;
   user: unknown;
