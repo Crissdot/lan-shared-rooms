@@ -10,6 +10,7 @@ import { validate } from '../middlewares/validatorHandler';
 import { successResponseData } from '../middlewares/responseHandler';
 import { getUserFromToken } from '../utils/tokenValidator';
 import { upload } from '../middlewares/uploadFileHandler';
+import { config } from '../config';
 
 const router = express.Router();
 
@@ -46,7 +47,7 @@ router.post('/',
       return next(createError.BadRequest('You need to send a message or a file'));
     }
 
-    const filePath = !!fileName ? `http://localhost:9999/public/${fileName}` : null;
+    const filePath = !!fileName ? `${config.BACKEND_DOMAIN}/public/${fileName}` : null;
 
     const data: PostModelInput = {
       message,

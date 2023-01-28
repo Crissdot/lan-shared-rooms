@@ -4,14 +4,14 @@ import { Server } from 'socket.io';
 import { setupSequelize } from './core/sequelize';
 import { routerApi } from './controllers';
 import { logErrors, httpErrorHandler, ormErrorHandler, errorHandler } from './middlewares/errorHandler';
-import { FRONTEND_DOMAIN, PORT } from './constants/env';
+import { config } from './config';
 import { SOCKET_NAMES } from './constants/sockets';
 
 const app: Express = express();
 
 app.use(express.json());
 
-const whitelist = [FRONTEND_DOMAIN, 'http://localhost:9998'];
+const whitelist = [config.FRONTEND_DOMAIN, 'http://localhost:9998'];
 const options: CorsOptions = {
   origin: (requestOrigin, callback) => {
     if(!requestOrigin || whitelist.includes(requestOrigin)) {
@@ -36,13 +36,13 @@ app.use(httpErrorHandler);
 app.use(ormErrorHandler);
 app.use(errorHandler);
 
-const server = app.listen(PORT, async () => {
+const server = app.listen(config.PORT, async () => {
   try {
     const sequelize = await setupSequelize();
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
-    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
+    console.log(`⚡️[server]: Server is running at http://localhost:${config.PORT}`);
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     return;
@@ -51,7 +51,7 @@ const server = app.listen(PORT, async () => {
 
 const io = new Server(server, {
   cors: {
-    origin: [FRONTEND_DOMAIN ?? '', 'http://localhost:9998'],
+    origin: [config.FRONTEND_DOMAIN ?? '', 'http://localhost:9998'],
     methods: ['GET'],
   },
 });
