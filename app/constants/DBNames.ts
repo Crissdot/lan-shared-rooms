@@ -6,12 +6,19 @@ interface ModelNames {
   };
 };
 
-const MODELS: {Post: ModelNames, User: ModelNames} = {
+const MODELS: {Post: ModelNames, FilePost: ModelNames, User: ModelNames} = {
   Post: {
     modelName: 'Post',
     tableName: {
       singular: 'post',
       plural: 'posts',
+    },
+  },
+  FilePost: {
+    modelName: 'FilePost',
+    tableName: {
+      singular: 'filePost',
+      plural: 'filePosts',
     },
   },
   User: {
@@ -25,6 +32,7 @@ const MODELS: {Post: ModelNames, User: ModelNames} = {
 
 const FOREIGN_KEYS = {
   postBelongsToUser: 'userId',
+  filePostBelongsToPost: 'postId',
 }
 
 export { MODELS, FOREIGN_KEYS };

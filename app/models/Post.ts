@@ -11,11 +11,6 @@ const definePost = (sequelize: Sequelize) => {
       allowNull: true,
       defaultValue: null,
     },
-    filePath: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: null,
-    },
     [FOREIGN_KEYS.postBelongsToUser]: {
       type: DataTypes.INTEGER,
       allowNull: true,
