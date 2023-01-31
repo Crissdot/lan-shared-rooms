@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { io } from "socket.io-client";
 import { postService } from '../../services/postService';
-import { IFetchedPost } from '../../types/IPost';
+import { IFetchedPost, IFilePost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
 import { config } from '../../config';
 
@@ -21,16 +21,26 @@ const ChatMessageListContainer = styled.ul`
 `;
 
 const ChatMessageListItem = styled.li`
-  position: relative;
-  display: block;
-  width: max-content;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
   max-width: 90%;
   min-height: 2rem;
   margin: 0.5rem;
-  padding: 0.5rem;
   background-color: ${props => props.theme.colors.alternative};
-  color: black;
   border-radius: 1rem;
+`;
+
+const ChatMessageListItemText = styled.span`
+  padding: 0.5rem;
+  color: black;
+`;
+
+const FileItem = styled.p`
+  position: relative;
+  padding: 0.5rem;
+  color: black;
+  border-top: 2px solid black;
 `;
 
 const DownloadFileButton = styled.a`
@@ -64,6 +74,23 @@ const ChatRoom = () => {
     setFetchedPosts(posts);
   }, []);
 
+  const renderFilePost = (file: IFilePost | null) => {
+    if (!file) {
+      return null;
+    }
+
+    return (
+      <FileItem>
+        {file.name}
+        <DownloadFileButton href={file.path} target='_blank' download>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path fillRule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+          </svg>
+        </DownloadFileButton>
+      </FileItem>
+    );
+  }
+
   return (
     <ChatRoomContainer>
       <ChatInput />
@@ -71,14 +98,10 @@ const ChatRoom = () => {
         {fetchedPosts.map((post, idx) => {
           return (
             <ChatMessageListItem key={idx}>
-              {!!post.message ? post.message : post.filePath?.endsWith('jpg') ? <img src={post.filePath} /> : post.filePath}
-              {!!post.filePath &&
-                <DownloadFileButton href={post.filePath} target='_blank' download>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-                    <path fillRule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.69l3.22-3.22a.75.75 0 111.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75zm-9 13.5a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
-                  </svg>
-                </DownloadFileButton>
-              }
+              <ChatMessageListItemText>
+                {post.message}
+              </ChatMessageListItemText>
+              {renderFilePost(post.filePost)}
             </ChatMessageListItem>
           );
         })}
