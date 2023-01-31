@@ -1,8 +1,7 @@
-export interface IFetchedUser {
-  id: number;
+import { IBaseModel } from "./IBaseModel";
+
+export interface IFetchedUser extends IBaseModel {
   username: string;
   password: string;
   token: string;
-  createdAt: string;
-  updatedAt: string;
 };

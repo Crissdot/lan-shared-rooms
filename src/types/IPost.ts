@@ -1,7 +1,6 @@
-export interface IFilePost {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
+import { IBaseModel } from "./IBaseModel";
+
+export interface IFilePost extends IBaseModel {
   name: string;
   path: string;
   mimeType: string;
@@ -9,15 +8,12 @@ export interface IFilePost {
   postId: number;
 }
 
-export interface IFetchedPost {
-  id: number;
+export interface IFetchedPost extends IBaseModel {
   message: string | null;
   filePost: IFilePost | null;
+  userId: number | null;
   // TODO type this
-  userId: unknown;
   user: unknown;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface ICreateNewPost {
