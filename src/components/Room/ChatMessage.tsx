@@ -45,6 +45,14 @@ const FileItemButton = styled.a`
   cursor: pointer;
 `;
 
+interface ToggleSVGProps {
+  showFiles: boolean;
+}
+const ToggleSVG = styled(SVG)<ToggleSVGProps>`
+  rotate: ${props => props.showFiles ? 180 : 360}deg;
+  transition: rotate 0.3s ease;
+`;
+
 interface Props {
   post: IFetchedPost;
 }
@@ -99,9 +107,9 @@ const ChatMessage = ({post}: Props) => {
         </DarkNormalText>
         {filePost && (
           <TransparentButton onClick={onClickToggleShowFiles}>
-            <SVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black">
+            <ToggleSVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" showFiles={showFiles} >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </SVG>
+            </ToggleSVG>
           </TransparentButton>
         )}
       </ChatMessageListItemTextContainer>
