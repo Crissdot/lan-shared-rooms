@@ -12,4 +12,13 @@ const Button = styled.button`
   border: none;
 `;
 
-export { Button };
+const TransparentButton = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border: none;
+  opacity: ${props => props.disabled ? 0.5 : 1};
+  cursor: pointer;
+`;
+
+export { Button, TransparentButton };

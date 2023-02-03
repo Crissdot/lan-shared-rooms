@@ -6,6 +6,9 @@ import { postService } from '../../services/postService';
 import { IFetchedPost, IFilePost } from '../../types/IPost';
 import { ChatInput } from './ChatInput';
 import { config } from '../../config';
+import { DarkNormalText } from '../StyledComponents/Texts';
+import { SVG } from '../StyledComponents/SVG';
+import { TransparentButton } from '../StyledComponents/Button';
 
 const ChatRoomContainer = styled.div`
   max-width: ${props => props.theme.sizes.maxWidth};
@@ -32,18 +35,19 @@ const ChatMessageListItem = styled.li`
   border-radius: 1rem;
 `;
 
-const ChatMessageListItemText = styled.span`
+const ChatMessageListItemTextContainer = styled.div`
+  display: flex;
   padding: 0.5rem;
-  color: black;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const FileItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0.5rem;
   border-top: 2px solid black;
-`;
-
-const FileItemText = styled.p`
-  color: black;
 `;
 
 const FileItemButtonContainer = styled.div`
@@ -63,6 +67,7 @@ const socket = io(config.backendDomain);
 
 const ChatRoom = () => {
   const [fetchedPosts, setFetchedPosts] = useState<IFetchedPost[]>([]);
+  const [showFiles, setShowFiles] = useState<boolean>(true);
 
   useEffect(() => {
     fetchPosts();
@@ -81,17 +86,18 @@ const ChatRoom = () => {
     setFetchedPosts(posts);
   }, []);
 
-  const renderFilePost = (file: IFilePost | null) => {
-    if (!file) {
-      return null;
-    }
+  const onClickToggleShowFiles = () => {
+    const toggle = !showFiles;
+    setShowFiles(toggle);
+  }
 
+  const renderFilePost = (file: IFilePost) => {
     const renderImageIfRequired = () => {
       if (file.mimeType.endsWith('jpeg')) {
-        return <img src={file.path} alt={file.name} />;
+        return <img src={file.path} alt={file.name}  />;
       }
 
-      return <FileItemText>{file.name}</FileItemText>;
+      return <DarkNormalText>{file.name}</DarkNormalText>;
     }
 
     const onClickDownloadHandler = () => {
@@ -122,12 +128,22 @@ const ChatRoom = () => {
       <ChatInput />
       <ChatMessageListContainer>
         {fetchedPosts.map((post, idx) => {
+          const {message, filePost} = post;
           return (
             <ChatMessageListItem key={idx}>
-              <ChatMessageListItemText>
-                {post.message}
-              </ChatMessageListItemText>
-              {renderFilePost(post.filePost)}
+              <ChatMessageListItemTextContainer>
+                <DarkNormalText>
+                  {message}
+                </DarkNormalText>
+                {filePost && (
+                  <TransparentButton onClick={onClickToggleShowFiles}>
+                    <SVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </SVG>
+                  </TransparentButton>
+                )}
+              </ChatMessageListItemTextContainer>
+              {filePost && showFiles && renderFilePost(filePost)}
             </ChatMessageListItem>
           );
         })}
