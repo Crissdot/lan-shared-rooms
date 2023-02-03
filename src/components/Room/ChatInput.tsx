@@ -7,6 +7,7 @@ import { ITheme } from '../../types/ITheme';
 import { TransparentButton } from '../StyledComponents/Button';
 import { Input } from '../StyledComponents/Input';
 import { SVG } from '../StyledComponents/SVG';
+import { DarkNormalText } from '../StyledComponents/Texts';
 
 const Form = styled.form`
   position: relative;
@@ -26,7 +27,21 @@ const InputFile = styled.input`
   width: 100px;
 `;
 
+const FileBubble = styled.div`
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: 1.5rem;
+  margin: 0 0.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid black;
+  border-radius: 1rem;
+  background-color: ${props => props.theme.colors.alternative};
+`;
+
 const RemoveFileButton = styled(TransparentButton)`
+  width: fit-content;
+  margin-left: 0.25rem;
   color: red;
   font-size: 1.3rem;
   font-weight: bold;
@@ -34,7 +49,7 @@ const RemoveFileButton = styled(TransparentButton)`
 
 const ChatInput = () => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
-  const [isAFileSelected, setIsAFileSelected] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   const theme = useTheme() as ITheme;
 
   const { register, handleSubmit, reset, resetField } = useForm<ICreateNewPost>();
@@ -50,24 +65,29 @@ const ChatInput = () => {
       // TODO
     } finally {
       setIsSendingMessage(false);
-      setIsAFileSelected(false);
+      setSelectedFiles(null);
     }
   }
 
   const onSelectFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsAFileSelected(true);
+    setSelectedFiles(event.target.files);
   };
 
   const onRemoveFileHandler = () => {
     resetField('files');
-    setIsAFileSelected(false);
+    setSelectedFiles(null);
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register('message')} type='text' />
       <ButtonContainer>
-        {isAFileSelected && <RemoveFileButton onClick={onRemoveFileHandler} type='button'>X</RemoveFileButton>}
+        {selectedFiles && (
+          <FileBubble>
+            <DarkNormalText>{selectedFiles[0].name}</DarkNormalText>
+            <RemoveFileButton onClick={onRemoveFileHandler} type='button'>X</RemoveFileButton>
+          </FileBubble>
+        )}
         <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} />
         <TransparentButton onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
           <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
