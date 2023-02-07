@@ -41,12 +41,12 @@ router.get('/',
 
 router.post('/',
   optionalLogin,
-  upload.single('file'),
+  upload.array('files'),
   validate(CreatePostSchema, 'body'),
   async (req: TypedRequest<CreatePostType>, res, next) => {
     const message = req.body.message ?? null;
-    const file = req.file ?? null;
-    if (!message && !file) {
+    const files = req.files ?? null;
+    if (!message && !files) {
       return next(createError.BadRequest('You need to send a message or a file'));
     }
 
@@ -62,24 +62,20 @@ router.post('/',
     const newPost = await getPostModel(sequelize).create(data);
     const postDTO: any = {
       ...newPost.dataValues,
-      filePost: null,
+      filePosts: null,
     };
 
-    if (file) {
+    if (files) {
       const postId = newPost.getDataValue('id');
-      const fileOriginalName = file.originalname;
-      const filePath = config.BACKEND_DOMAIN +  '/public/' + file.filename;
-      const fileMimeType = file.mimetype;
-      const fileSize = file.size;
-      const createFile: FilePostModelInput = {
+      const newFilePosts: FilePostModelInput[] = (files as Express.Multer.File[]).map(file => ({
         postId,
-        name: fileOriginalName,
-        path: filePath,
-        mimeType: fileMimeType,
-        size: fileSize,
-      }
-      const newFilePost = await getFilePostModel(sequelize).create(createFile);
-      postDTO.filePost = {...newFilePost.dataValues};
+        name: file.originalname,
+        path: config.BACKEND_DOMAIN +  '/public/' + file.filename,
+        mimeType: file.mimetype,
+        size: file.size,
+      }));
+      const createdFilePosts = await getFilePostModel(sequelize).bulkCreate(newFilePosts);
+      postDTO.filePosts = createdFilePosts.map(createdFilePost => createdFilePost.dataValues);
     }
 
     const resData = successResponseData({

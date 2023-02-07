@@ -13,8 +13,8 @@ const setupModels = async (sequelize: Sequelize) => {
   UserModel.hasMany(PostModel, {as: MODELS.Post.tableName.plural, foreignKey: FOREIGN_KEYS.postBelongsToUser});
   PostModel.belongsTo(UserModel, {as: MODELS.User.tableName.singular});
 
-  PostModel.hasOne(FilePostModel, {
-    as: MODELS.FilePost.tableName.singular,
+  PostModel.hasMany(FilePostModel, {
+    as: MODELS.FilePost.tableName.plural,
     foreignKey: FOREIGN_KEYS.filePostBelongsToPost,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
