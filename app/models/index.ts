@@ -14,7 +14,7 @@ const setupModels = async (sequelize: Sequelize) => {
   PostModel.belongsTo(UserModel, {as: MODELS.User.tableName.singular});
 
   PostModel.hasMany(FilePostModel, {
-    as: MODELS.FilePost.tableName.singular,
+    as: MODELS.FilePost.tableName.plural,
     foreignKey: FOREIGN_KEYS.filePostBelongsToPost,
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
@@ -26,7 +26,7 @@ const setupModels = async (sequelize: Sequelize) => {
   });
 
   // Don't use force in production
-  return sequelize.sync({ force: true });
+  return sequelize.sync({ force: false });
 }
 
 export { setupModels };

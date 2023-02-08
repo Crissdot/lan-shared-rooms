@@ -25,7 +25,7 @@ router.get('/',
     const offset = params.page ? (params.page-1) * limit : 0;
 
     const posts = await getPostModel(sequelize).findAll({
-      include: [MODELS.User.tableName.singular, MODELS.FilePost.tableName.singular],
+      include: [MODELS.User.tableName.singular, MODELS.FilePost.tableName.plural],
       limit,
       offset,
       order: [['createdAt', 'DESC']]
@@ -46,7 +46,7 @@ router.post('/',
   async (req: TypedRequest<CreatePostType>, res, next) => {
     const message = req.body.message ?? null;
     const files = req.files ?? null;
-    if (!message && !files) {
+    if (!message && (!files || files.length === 0)) {
       return next(createError.BadRequest('You need to send a message or a file'));
     }
 
