@@ -49,46 +49,48 @@ const RemoveFileButton = styled(TransparentButton)`
 
 const ChatInput = () => {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const theme = useTheme() as ITheme;
 
-  const { register, handleSubmit, reset, resetField } = useForm<ICreateNewPost>();
+  const { register, handleSubmit, reset } = useForm<ICreateNewPost>();
   const onSubmit: SubmitHandler<ICreateNewPost> = async (data) => {
-    const files = data.files as FileList;
-    if (isSendingMessage || (data.message.length === 0 && files.length === 0)) return;
+    if (isSendingMessage || (data.message.length === 0 && selectedFiles.length === 0)) return;
     setIsSendingMessage(true);
     try {
-      const file = files[0];
-      await postService.create(data.message, file);
+      await postService.create(data.message, selectedFiles);
       reset();
+      setSelectedFiles([]);
     } catch (e) {
       // TODO
     } finally {
       setIsSendingMessage(false);
-      setSelectedFiles(null);
     }
   }
 
   const onSelectFileHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedFiles(event.target.files);
+    setSelectedFiles(Array.from(event.target.files ?? []));
   };
 
-  const onRemoveFileHandler = () => {
-    resetField('files');
-    setSelectedFiles(null);
+  const onRemoveFileHandler = (index: number) => {
+    if (selectedFiles) {
+      const newSelectedFiles = selectedFiles.slice(0, index).concat(selectedFiles.slice(index+1));
+      setSelectedFiles(newSelectedFiles);
+    }
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Input {...register('message')} type='text' />
       <ButtonContainer>
-        {selectedFiles && (
-          <FileBubble>
-            <DarkNormalText>{selectedFiles[0].name}</DarkNormalText>
-            <RemoveFileButton onClick={onRemoveFileHandler} type='button'>X</RemoveFileButton>
-          </FileBubble>
-        )}
-        <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} />
+        {selectedFiles && selectedFiles.map((selectedFile, index) => {
+          return (
+            <FileBubble key={index}>
+              <DarkNormalText>{selectedFile.name}</DarkNormalText>
+              <RemoveFileButton onClick={() => onRemoveFileHandler(index)} type='button'>X</RemoveFileButton>
+            </FileBubble>
+          );
+        })}
+        <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} multiple />
         <TransparentButton onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
           <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
             <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />

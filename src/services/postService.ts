@@ -23,14 +23,14 @@ class PostService {
     return response.data.data;
   }
 
-  async create(message: string | null, file: File) {
+  async create(message: string | null, files: File[]) {
     const headers: IGenericHeaders = {};
     const userToken = getCurrentUserToken();
     if (userToken) {
       headers['Token-Auth'] = userToken;
     }
 
-    const newPost = createFormDataFromObject({message, file});
+    const newPost = createFormDataFromObject({message, files});
     const response = await axios.post<IGenericResponse<IFetchedPost>>(this.enpointURL, newPost, {
       headers,
     });

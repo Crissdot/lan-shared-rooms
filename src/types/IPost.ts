@@ -18,5 +18,5 @@ export interface IFetchedPost extends IBaseModel {
 
 export interface ICreateNewPost {
   message: string;
-  files: unknown;
+  files: FileList;
 };
