@@ -57,10 +57,12 @@ interface Props {
   post: IFetchedPost;
 }
 
+const VALID_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
+
 const ChatMessage = ({post}: Props) => {
   const {message, filePosts} = post;
 
-  const [showFiles, setShowFiles] = useState<boolean>(true);
+  const [showFiles, setShowFiles] = useState<boolean>(false);
 
   const onClickToggleShowFiles = () => {
     const toggle = !showFiles;
@@ -69,8 +71,8 @@ const ChatMessage = ({post}: Props) => {
 
   const renderFilePost = (file: IFilePost) => {
     const renderImageIfRequired = () => {
-      if (file.mimeType.endsWith('jpeg')) {
-        return <img src={file.path} alt={file.name}  />;
+      if (VALID_IMAGE_EXTENSIONS.some(ext => file.mimeType.endsWith(ext))) {
+        return <img src={file.path} alt={file.name} width={256} height={256} />;
       }
 
       return <DarkNormalText>{file.name}</DarkNormalText>;
