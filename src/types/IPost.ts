@@ -10,7 +10,7 @@ export interface IFilePost extends IBaseModel {
 
 export interface IFetchedPost extends IBaseModel {
   message: string | null;
-  filePosts: IFilePost[] | null;
+  filePosts: IFilePost[];
   userId: number | null;
   // TODO type this
   user: unknown;

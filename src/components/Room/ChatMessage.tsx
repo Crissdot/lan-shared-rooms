@@ -99,13 +99,17 @@ const ChatMessage = ({post}: Props) => {
     );
   }
 
+  if (!message && filePosts.length === 0) {
+    return null;
+  }
+
   return (
     <ChatMessageListItem>
       <ChatMessageListItemTextContainer>
         <DarkNormalText>
           {message}
         </DarkNormalText>
-        {filePosts && (
+        {filePosts.length > 0 && (
           <TransparentButton onClick={onClickToggleShowFiles}>
             <ToggleSVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" showFiles={showFiles} >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -113,7 +117,7 @@ const ChatMessage = ({post}: Props) => {
           </TransparentButton>
         )}
       </ChatMessageListItemTextContainer>
-      {filePosts && showFiles && filePosts.map(renderFilePost)}
+      {showFiles && filePosts.map(renderFilePost)}
     </ChatMessageListItem>
   );
 }
