@@ -21,7 +21,7 @@ const ChatMessageListItemTextContainer = styled.div`
   display: flex;
   padding: 0.5rem;
   gap: 1rem;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 `;
 
@@ -62,7 +62,7 @@ const VALID_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 const ChatMessage = ({post}: Props) => {
   const {message, filePosts} = post;
 
-  const [showFiles, setShowFiles] = useState<boolean>(false);
+  const [showFiles, setShowFiles] = useState<boolean>(!message && filePosts.length > 0);
 
   const onClickToggleShowFiles = () => {
     const toggle = !showFiles;
@@ -108,9 +108,11 @@ const ChatMessage = ({post}: Props) => {
   return (
     <ChatMessageListItem>
       <ChatMessageListItemTextContainer>
-        <DarkNormalText>
-          {message}
-        </DarkNormalText>
+        {message && (
+          <DarkNormalText>
+            {message}
+          </DarkNormalText>
+        )}
         {filePosts.length > 0 && (
           <TransparentButton onClick={onClickToggleShowFiles}>
             <ToggleSVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" showFiles={showFiles} >
