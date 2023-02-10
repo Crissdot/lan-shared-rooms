@@ -58,7 +58,7 @@ interface Props {
 }
 
 const ChatMessage = ({post}: Props) => {
-  const {message, filePost} = post;
+  const {message, filePosts} = post;
 
   const [showFiles, setShowFiles] = useState<boolean>(true);
 
@@ -81,7 +81,7 @@ const ChatMessage = ({post}: Props) => {
     }
 
     return (
-      <FileItemContainer>
+      <FileItemContainer key={file.id}>
         {renderImageIfRequired()}
         <FileItemButtonContainer>
           <FileItemButton href={file.path} target='_blank'>
@@ -105,7 +105,7 @@ const ChatMessage = ({post}: Props) => {
         <DarkNormalText>
           {message}
         </DarkNormalText>
-        {filePost && (
+        {filePosts && (
           <TransparentButton onClick={onClickToggleShowFiles}>
             <ToggleSVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" showFiles={showFiles} >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -113,7 +113,7 @@ const ChatMessage = ({post}: Props) => {
           </TransparentButton>
         )}
       </ChatMessageListItemTextContainer>
-      {filePost && showFiles && renderFilePost(filePost)}
+      {filePosts && showFiles && filePosts.map(renderFilePost)}
     </ChatMessageListItem>
   );
 }
