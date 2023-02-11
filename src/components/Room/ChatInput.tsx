@@ -10,9 +10,14 @@ import { SVG } from '../StyledComponents/SVG';
 import { DarkNormalText } from '../StyledComponents/Texts';
 
 const Form = styled.form`
-  display: flex;
   width: 100%;
   max-width: ${props => props.theme.sizes.maxWidth};
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  width: 100%;
+  border-top-right-radius: 1rem;
 `;
 
 const ButtonsContainer = styled.div`
@@ -28,13 +33,22 @@ const InputFile = styled.input`
   width: 100px;
 `;
 
+const SelectedFilesContainer = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: white;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  padding: 0.5rem;
+  gap: 0.5rem;
+`;
+
 const FileBubble = styled.div`
   display: flex;
   align-items: center;
   width: fit-content;
-  height: 1.5rem;
-  margin: 0 0.5rem;
-  padding: 0 0.5rem;
+  min-height: 1.5rem;
+  padding: 0.5rem;
   border: 1px solid black;
   border-radius: 1rem;
   background-color: ${props => props.theme.colors.alternative};
@@ -81,15 +95,29 @@ const ChatInput = () => {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Input {...register('message')} type='text' />
-      <ButtonsContainer>
-        <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} multiple />
-        <TransparentButton onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
-          <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
-            <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
-          </SVG>
-        </TransparentButton>
-      </ButtonsContainer>
+      <InputContainer>
+        <Input {...register('message')} type='text' />
+        <ButtonsContainer>
+          <InputFile {...register('files')} type='file' onChange={onSelectFileHandler} disabled={isSendingMessage} multiple />
+          <TransparentButton onClick={handleSubmit(onSubmit)} disabled={isSendingMessage} >
+            <SVG xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={theme.colors.secondary}>
+              <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+            </SVG>
+          </TransparentButton>
+        </ButtonsContainer>
+      </InputContainer>
+      {selectedFiles.length > 0 && (
+        <SelectedFilesContainer>
+          {selectedFiles.map((selectedFile, index) => {
+            return (
+              <FileBubble key={index}>
+                <DarkNormalText>{selectedFile.name}</DarkNormalText>
+                <RemoveFileButton onClick={() => onRemoveFileHandler(index)} type='button'>X</RemoveFileButton>
+              </FileBubble>
+            );
+          })}
+        </SelectedFilesContainer>
+      )}
     </Form>
   );
 }
