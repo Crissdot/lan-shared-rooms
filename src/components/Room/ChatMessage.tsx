@@ -10,6 +10,8 @@ const ChatMessageListItem = styled.li`
   display: flex;
   flex-direction: column;
   width: fit-content;
+  min-width: 235px;
+  width: 50%;
   max-width: 90%;
   min-height: 2rem;
   margin: 0.5rem;
@@ -21,13 +23,14 @@ const ChatMessageListItemTextContainer = styled.div`
   display: flex;
   padding: 0.5rem;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
 `;
 
 const FileItemContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0.5rem;
   border-top: 2px solid black;
 `;
@@ -72,7 +75,7 @@ const ChatMessage = ({post}: Props) => {
   const renderFilePost = (file: IFilePost) => {
     const renderImageIfRequired = () => {
       if (VALID_IMAGE_EXTENSIONS.some(ext => file.mimeType.endsWith(ext))) {
-        return <img src={file.path} alt={file.name} width={256} height={256} />;
+        return <img src={file.path} alt={file.name} width={235} height={235} />;
       }
 
       return <DarkNormalText>{file.name}</DarkNormalText>;
@@ -108,11 +111,9 @@ const ChatMessage = ({post}: Props) => {
   return (
     <ChatMessageListItem>
       <ChatMessageListItemTextContainer>
-        {message && (
-          <DarkNormalText>
-            {message}
-          </DarkNormalText>
-        )}
+        <DarkNormalText>
+          {message ? message : `${filePosts.length} file${filePosts.length === 1 ? '' : 's'} inside`}
+        </DarkNormalText>
         {filePosts.length > 0 && (
           <TransparentButton onClick={onClickToggleShowFiles}>
             <ToggleSVG xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" showFiles={showFiles} >
