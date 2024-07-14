@@ -1,8 +1,10 @@
-import { Manager } from 'socket.io-client';
+import { io } from 'socket.io-client';
+import { config } from '../config';
 
 const createSocketClient = () => {
-  const manager = new Manager('ws://localhost:9999/api/v1');
-  const socket = manager.socket('/');
+  const socket = io(config.BACKEND_DOMAIN, {
+    path: config.SOCKET_ENDPOINT
+  });
 
   socket.on('connect', () => {
     console.log('Socket connected');

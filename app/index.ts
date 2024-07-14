@@ -11,13 +11,13 @@ const app: Express = express();
 
 app.use(express.json());
 
-const whitelist = [config.FRONTEND_DOMAIN, 'http://localhost:9998'];
+const whitelist = [config.FRONTEND_DOMAIN, 'http://localhost:9998', 'http://localhost'];
 const options: CorsOptions = {
   origin: (requestOrigin, callback) => {
     if(!requestOrigin || whitelist.includes(requestOrigin)) {
       callback(null, true);
     } else {
-      callback(new Error('You shall not pass'));
+      callback(new Error('You shall not pass: ' + requestOrigin));
     }
   },
 }
@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   return res.send('All fine!');
 });
 
-app.use('/public', express.static('uploads'));
+app.use(config.STATIC_ENDPOINT, express.static('uploads'));
 
 routerApi(app);
 
@@ -42,7 +42,7 @@ const server = app.listen(config.PORT, async () => {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
 
-    console.log(`⚡️[server]: Server is running at http://localhost:${config.PORT}`);
+    console.log(`⚡️[server]: Server is running at ${config.BACKEND_DOMAIN}`);
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     return;
@@ -51,9 +51,10 @@ const server = app.listen(config.PORT, async () => {
 
 const io = new Server(server, {
   cors: {
-    origin: [config.FRONTEND_DOMAIN ?? '', 'http://localhost:9998'],
+    origin: whitelist,
     methods: ['GET'],
   },
+  path: config.SOCKET_ENDPOINT
 });
 
 let usersCount = 0;

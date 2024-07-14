@@ -70,7 +70,7 @@ router.post('/',
       const newFilePosts: FilePostModelInput[] = (files as Express.Multer.File[]).map(file => ({
         postId,
         name: file.originalname,
-        path: config.BACKEND_DOMAIN +  '/public/' + file.filename,
+        path: config.BACKEND_DOMAIN + config.STATIC_ENDPOINT + '/' + file.filename,
         mimeType: file.mimetype,
         size: file.size,
       }));
