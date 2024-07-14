@@ -32,7 +32,8 @@
     "start": "PORT=${PORT-9998} BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "npx serve -s build -p ${PORT-9998}"
   },
   "eslintConfig": {
     "extends": [
