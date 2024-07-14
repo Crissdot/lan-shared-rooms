@@ -20,7 +20,9 @@ const ChatMessageListContainer = styled.ul`
   list-style: none;
 `;
 
-const socket = io(config.backendDomain);
+const socket = io(config.backendDomain, {
+  path: config.socketEndpoint
+});
 
 const ChatRoom = () => {
   const [fetchedPosts, setFetchedPosts] = useState<IFetchedPost[]>([]);
