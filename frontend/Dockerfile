@@ -1,10 +1,16 @@
 FROM node:18-alpine
 
+ARG REACT_APP_BACKEND_DOMAIN
+
 WORKDIR /frontend
+
+COPY package*.json .
+
+RUN npm install
 
 COPY . .
 
-RUN rm -rf node_modules; npm install; npm run build
+RUN npm run build
 
 EXPOSE 80
 
